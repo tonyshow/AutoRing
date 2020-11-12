@@ -1,2 +1,2 @@
-# AutoRing
-挂机圈
+# hello-world
+Hello world new project template.
