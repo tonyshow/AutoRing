@@ -1,5 +1,6 @@
 import _ from "underscore";
 import EnumPrefab from "../Framework/Auto/EnumPrefab";
+import EnumPrompt from "../Framework/Interface/EnumPrompt";
 import Scene from "../Framework/Interface/Scene/Scene";
 import ResUtil from "../Framework/Manager/ResManager/ResUtil";
 import AREditorCell from "./Components/AREditorCell";
@@ -30,7 +31,11 @@ export default class AREditorMain extends Scene {
   spaceCellList = [];
   start() {
     this.eveList.push(["setMenuActive", this.setMenuActive.bind(this)]);
+    this.eveList.push(["refreshEditor", this.refreshEditor.bind(this)]);
     super.start();
+  }
+  refreshEditor(data){
+    this.onCleanAll();
   }
   setMenuActive(isActive) {
     this.menuNode.active = isActive;
@@ -67,12 +72,41 @@ export default class AREditorMain extends Scene {
 
   //试玩
   onTryPlay() {
-    g_global.msgManager.show(EnumPrefab.MsgARTryPlay,this.readEditor());
+    let list =this.isHaveEditor()
+    if(!list){
+      return;
+    }
+    g_global.msgManager.show(EnumPrefab.MsgARTryPlay,list);
   }
 
-  //保持编辑
+  //保存编辑
   onSaveEditor() {
-    this.readEditor();
+    let list =this.isHaveEditor()
+    if(!list){
+      return;
+    }
+    g_global.msgManager.show(EnumPrefab.MsgARSaveEditor,list);
+  }
+  /**
+   * 我得编辑列表
+   */
+  onMyEditorList(){
+    g_global.msgManager.show(EnumPrefab.MsgARMyEditorList);
+  }
+  //导出编辑
+  onExportEditor(){
+    let list =this.isHaveEditor()
+    if(!list){
+      return;
+    }
+  }
+  isHaveEditor(){
+    let list =  this.readEditor();
+    if(list.length<=0){
+       g_global.msgSys.showPrompt({txt:"没有制作数据,赶紧编辑吧",type:EnumPrompt.ERROR});
+       return null;
+    }
+    return list;
   }
   readEditor() {
     let editorBallInfoList = [];
