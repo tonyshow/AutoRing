@@ -12,6 +12,9 @@ export default class MsgARTryPlay extends MsgFullScreen {
     this.createBalls();
   }
 
+  onNextLevel(){
+    g_global.msgSys.showPrompt("成功过关!!");
+  }
   async createBalls(){
     await super.onLoad();
     let list = this.getData();
@@ -36,6 +39,7 @@ export default class MsgARTryPlay extends MsgFullScreen {
     g_global.eveLister.emit("useCollider",true);
   }
   async start() {
+    this.eveList.push(["armaprm", this.onNextLevel.bind(this)]);
     super.start();
   }
 }
