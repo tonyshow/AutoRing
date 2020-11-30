@@ -13,7 +13,7 @@ export default class AREditorCell extends Interface {
   childCell: cc.Node = null;
   dragNode: cc.Node = null;
   enumPrefab=0;
-  isCollider=false;
+  isCollider=true;
   collider:cc.BoxCollider=null;
   setTag(tag) {
     this.tag = tag;
@@ -29,7 +29,7 @@ export default class AREditorCell extends Interface {
     this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
     this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
     this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
-    this.collider = this.node.getComponent(cc.BoxCollider);
+    //this.collider = this.node.getComponent(cc.BoxCollider);
   }
   public getChildCnt(): number {
     return this.node.childrenCount;
@@ -111,6 +111,7 @@ export default class AREditorCell extends Interface {
     let collider = this.dragNode.getComponent(cc.CircleCollider);
     if (!!collider) {
       collider.radius = 1;
+      collider.tag=100
     }
 
     let boxCollider  = this.dragNode.getComponent(cc.BoxCollider);
@@ -128,17 +129,16 @@ export default class AREditorCell extends Interface {
     }
   }
   private useCollider(isCollider){
-    this.isCollider = isCollider
-    this.collider.enabled = isCollider
+    //this.isCollider = isCollider
+    //this.collider.enabled = isCollider
   }
   private onCollisionEnter(otherNode: any, selfNode: any) {
     if(!this.isCollider)return;
     //被碰撞体直接攻击
-    if (otherNode.tag == selfNode.tag) {
+    if (otherNode.tag == selfNode.tag || otherNode.tag != 100) {
       return;
     }
     let currSelectEnumPrefab = g_global.editorManager.getCurrSelect();
     this.addBall(currSelectEnumPrefab);
   }
-
 }

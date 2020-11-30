@@ -225,6 +225,11 @@
       "__id__": 1
     },
     "_enabled": true,
+    "enumAutoPrefab": 1,
+    "autoPrefabList": [
+      0
+    ],
+    "autoParentNode": null,
     "bgNode": {
       "__id__": 2
     },
