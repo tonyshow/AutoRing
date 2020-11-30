@@ -13,7 +13,7 @@ export default class AREditorCell extends Interface {
   childCell: cc.Node = null;
   dragNode: cc.Node = null;
   enumPrefab=0;
-  isCollider=true;
+  isCollider=false;
   collider:cc.BoxCollider=null;
   setTag(tag) {
     this.tag = tag;
@@ -29,7 +29,6 @@ export default class AREditorCell extends Interface {
     this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
     this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
     this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
-
     this.collider = this.node.getComponent(cc.BoxCollider);
   }
   public getChildCnt(): number {
@@ -81,7 +80,7 @@ export default class AREditorCell extends Interface {
         currSelectEnumPrefab,
         this.node
       );
-      let collider = this.childCell.getComponent(cc.CircleCollider);
+      let collider = this.childCell.getComponent(cc.Collider);
       if (!!collider) {
         collider.enabled = false;
       }
@@ -113,6 +112,11 @@ export default class AREditorCell extends Interface {
     if (!!collider) {
       collider.radius = 1;
     }
+
+    let boxCollider  = this.dragNode.getComponent(cc.BoxCollider);
+    if (!!boxCollider) {
+      boxCollider.size=new cc.Size(1,1)
+    }
   }
   private onTouchEnd() {
     if(!this.isCollider)return;
@@ -136,4 +140,5 @@ export default class AREditorCell extends Interface {
     let currSelectEnumPrefab = g_global.editorManager.getCurrSelect();
     this.addBall(currSelectEnumPrefab);
   }
+
 }

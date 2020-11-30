@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "b339e4eb-4fb7-4045-ba16-58e7a0f43c44",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 352,
+  "height": 750,
+  "platformSettings": {},
+  "subMetas": {
+    "ARGameTryPlayBg": {
+      "ver": "1.0.4",
+      "uuid": "9b1ad769-a35e-415d-9e94-a3d3e5671f5c",
+      "rawTextureUuid": "b339e4eb-4fb7-4045-ba16-58e7a0f43c44",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 352,
+      "height": 750,
+      "rawWidth": 352,
+      "rawHeight": 750,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

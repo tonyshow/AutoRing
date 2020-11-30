@@ -22,9 +22,9 @@ export default class MsgARTryPlay extends MsgFullScreen {
           this.mapNode
         );
         let pos = this.mapNode.convertToNodeSpaceAR(ballInfo.position);
-        console.log("add");
         ballNode.setPosition(pos);
       }
+      g_global.gameUIDataManager.refreshIsEnemyCanEmit(true)
     }
   }
   onResetPlay(){

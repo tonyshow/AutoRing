@@ -24,9 +24,10 @@ export default class ARSelectBg extends Interface {
   async addQ(qPrefabEnum) {
     this.qPrefabEnum = qPrefabEnum;
     let qNode = await ResUtil.getNodeByEnumPrefab(this.qPrefabEnum, this.node);
-    let collider =qNode.getComponent(cc.CircleCollider)
-    if(!!collider){
-      collider.enabled = false;
+    //去掉碰撞
+    let colliders =qNode.getComponent(cc.Collider)
+    if(!!colliders){
+      colliders.destroy();
     }
   }
   setSelect(isSelect: boolean = false) {

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ARMap2",
+    "_name": "ARMapCircular",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -52,7 +52,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        99.165,
         0,
         0,
         0,
@@ -77,6 +77,21 @@
     "_id": ""
   },
   {
+    "__type__": "a78d13AMsZH7aAKNoQJPyRZ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "enumAutoPrefab": 1,
+    "autoPrefabList": [
+      0
+    ],
+    "autoParentNode": null,
+    "_id": ""
+  },
+  {
     "__type__": "30a05BSg0BP2oW7i6OVHNLa",
     "_name": "",
     "_objFlags": 0,
@@ -84,18 +99,8 @@
       "__id__": 1
     },
     "_enabled": true,
-    "clockwise": false,
-    "duration": 20,
-    "_id": ""
-  },
-  {
-    "__type__": "028efj2BJZI9KqIIGffzQdT",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
+    "clockwise": true,
+    "duration": 40,
     "_id": ""
   },
   {
@@ -104,7 +109,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4345b1c3-9873-4523-bcca-942941f8a663"
+      "__uuid__": "52d0b043-e043-4820-842c-2ec16e6160d9"
     },
     "fileId": "",
     "sync": false

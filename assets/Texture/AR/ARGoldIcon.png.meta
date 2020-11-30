@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "f45208b2-5bb4-416a-b7f0-6e5d8a0c0f53",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 105,
+  "height": 100,
+  "platformSettings": {},
+  "subMetas": {
+    "ARGoldIcon": {
+      "ver": "1.0.4",
+      "uuid": "e26c70bf-b0a3-4ad8-be07-3c589aef924d",
+      "rawTextureUuid": "f45208b2-5bb4-416a-b7f0-6e5d8a0c0f53",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 105,
+      "height": 100,
+      "rawWidth": 105,
+      "rawHeight": 100,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
