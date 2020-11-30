@@ -1,5 +1,6 @@
 import MsgFullScreen from "../Framework/Interface/Msg/MsgFullScreen";
 import ResUtil from "../Framework/Manager/ResManager/ResUtil";
+import ARMainDefault from "./Components/ARMainDefault";
 import g_global from "./GameGlobal";
 
 const { ccclass, property } = cc._decorator;
@@ -7,6 +8,10 @@ const { ccclass, property } = cc._decorator;
 export default class MsgARTryPlay extends MsgFullScreen {
   @property({ tooltip: "may", type: cc.Node })
   mapNode: cc.Node = null;
+
+  @property({ tooltip: "may", type: ARMainDefault })
+  arMainDefault: ARMainDefault = null;
+
   async onLoad() {
     g_global.eveLister.emit("useCollider",false);
     this.createBalls();
@@ -16,19 +21,19 @@ export default class MsgARTryPlay extends MsgFullScreen {
     g_global.msgSys.showPrompt("成功过关!!");
   }
   async createBalls(){
-    await super.onLoad();
     let list = this.getData();
-    if (!!list) {
-      for (let ballInfo of list) {
-        let ballNode = await ResUtil.getNodeByEnumPrefab(
-          ballInfo.enumPrefab,
-          this.mapNode
-        );
-        let pos = this.mapNode.convertToNodeSpaceAR(ballInfo.position);
-        ballNode.setPosition(pos);
-      }
-      g_global.gameUIDataManager.refreshIsEnemyCanEmit(true)
-    }
+    this.arMainDefault.setGate(list);
+    //if (!!list) {
+    //  for (let ballInfo of list) {
+    //    let ballNode = await ResUtil.getNodeByEnumPrefab(
+    //      ballInfo.enumPrefab,
+    //      this.mapNode
+    //    );
+    //    let pos = this.mapNode.convertToNodeSpaceAR(ballInfo.position);
+    //    ballNode.setPosition(pos);
+    //  }
+    //  g_global.gameUIDataManager.refreshIsEnemyCanEmit(true)
+    //}
   }
   onResetPlay(){
     this.mapNode.removeAllChildren(true)
