@@ -1,4 +1,5 @@
 import EnumPrefab from "../../Framework/Auto/EnumPrefab";
+import EnumScene from "../../Framework/Auto/EnumScene";
 import EnumPrompt from "../../Framework/Interface/EnumPrompt";
 import Interface from "../../Framework/Interface/Interface";
 import g_global from "../GameGlobal";
@@ -20,7 +21,10 @@ export default class ARLookEditorItem extends Interface {
     }
     if (!!this.callback) {
       this.callback(this.data);
-      g_global.msgManager.show(EnumPrefab.MsgARTryPlay,this.data);
+      //g_global.editorManager.setCurrMapData(this.data);
+      //g_global.msgManager.show(EnumPrefab.MsgARTryPlay,this.data);
+      g_global.editorManager.setCurrMapData(this.data);
+      g_global.scene.goScene(EnumScene.ARTryPlay)
     }
     g_global.eveLister.emit("refreshEditor",this.data);
   }
@@ -32,7 +36,10 @@ export default class ARLookEditorItem extends Interface {
   onTryPlayClick(){
     if (!!this.callback) {
       this.callback(this.data);
-      g_global.msgManager.show(EnumPrefab.MsgARTryPlay,this.data);
+      //g_global.editorManager.setCurrMapData(this.data);
+      //g_global.msgManager.show(EnumPrefab.MsgARTryPlay,this.data);
+      g_global.editorManager.setCurrMapData(this.data);
+      g_global.scene.goScene(EnumScene.ARTryPlay)
     }
   }
   //去修改关卡命名

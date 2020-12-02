@@ -1,11 +1,14 @@
 import _ from "underscore";
 import EnumPrefab from "../Framework/Auto/EnumPrefab";
+import EnumScene from "../Framework/Auto/EnumScene";
 import EnumPrompt from "../Framework/Interface/EnumPrompt";
 import Scene from "../Framework/Interface/Scene/Scene";
 import ResUtil from "../Framework/Manager/ResManager/ResUtil";
 import Utils from "../Framework/Utils/Utils";
 import AREditorCell from "./Components/AREditorCell";
 import ARSelectBg from "./Components/ARSelectBg";
+import EnumARMapAction from "./EnumARMapAction";
+import EnumARMapShape from "./EnumARMapShape";
 import g_global from "./GameGlobal";
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -23,9 +26,6 @@ export default class AREditorMain extends Scene {
   @property({ tooltip: "操控台", type: cc.Node })
   menuNode: cc.Node = null;
 
-  @property({ tooltip: "提示语言", type: cc.Node })
-  tipsNode: cc.Node = null;
-
   @property({ tooltip: "背景动作按钮", type: cc.Node })
   bgActonNode: cc.Node = null;
 
@@ -38,12 +38,30 @@ export default class AREditorMain extends Scene {
   @property({ tooltip: "回到游戏", type: cc.Node })
   backGameNode: cc.Node = null;
 
+  @property({ tooltip: "动作类型旋转", type: cc.Node })
+  atcBtnRotate: cc.Node = null;
+  @property({ tooltip: "动作类型无", type: cc.Node })
+  atcBtnNone: cc.Node = null;
+  @property({ tooltip: "动作类型圆", type: cc.Node })
+  shapeNodeCircular: cc.Node = null;
+  @property({ tooltip: "动作类型矩形", type: cc.Node })
+  shapeNodeSquare: cc.Node = null;
+
   spaceCellList = [];
 
   @property({ tooltip: "开始制作或者修改属性", type: cc.Label })
   lbStartOrEditor: cc.Label = null;
 
   isStartOrEditor : boolean = false;//开始制作或者重新编辑属性
+  currEditorData={
+    //背景
+    map:{
+      action:EnumARMapAction.NONE,//动作
+      shape:EnumARMapShape.SQUARE,//形状
+    },
+    list:[]//球数据
+  };//当前编辑的map数据
+
   start() {
     this.eveList.push(["setMenuActive", this.setMenuActive.bind(this)]);
     this.eveList.push(["refreshEditor", this.refreshEditor.bind(this)]);
@@ -56,7 +74,6 @@ export default class AREditorMain extends Scene {
   }
   setMenuActive(isActive) {
     this.menuNode.active = isActive;
-    this.tipsNode.active = isActive;
   }
   async onLoad() {
     await super.onLoad();
@@ -155,20 +172,22 @@ export default class AREditorMain extends Scene {
   }
   //试玩
   onTryPlay() {
-    let list = this.isHaveEditor();
+    let list = this.getEditorData();
     if (!list) {
       return;
     }
-    g_global.msgManager.show(EnumPrefab.MsgARTryPlay, list);
+    g_global.editorManager.setCurrMapData(list);
+    g_global.scene.goScene(EnumScene.ARTryPlay)
   }
 
   //保存编辑
   onSaveEditor() {
-    let list = this.isHaveEditor();
+    let list = this.getEditorData();
     if (!list) {
       return;
     }
-    g_global.msgManager.show(EnumPrefab.MsgARSaveEditor, list);
+    this.currEditorData.list=list
+    g_global.msgManager.show(EnumPrefab.MsgARSaveEditor,  this.currEditorData);
   }
   /**
    * 我得编辑列表
@@ -178,12 +197,12 @@ export default class AREditorMain extends Scene {
   }
   //导出编辑
   onExportEditor() {
-    let list = this.isHaveEditor();
+    let list = this.getEditorData();
     if (!list) {
       return;
     }
   }
-  isHaveEditor() {
+  getEditorData() {
     let list = this.readEditor();
     if (list.length <= 0) {
       g_global.msgSys.showPrompt({
@@ -205,20 +224,39 @@ export default class AREditorMain extends Scene {
     return editorBallInfoList;
   }
   onSwitchMapShape(eve, data) {
+    let color = cc.Color.BLACK;
+    this.shapeNodeCircular.color = color.fromHEX("#7EEDFF");
+    this.shapeNodeSquare.color = color.fromHEX("#7EEDFF");
+
+    let choiceColor =  color.fromHEX("#FFE70E");
     this.node.removeAllChildren(true);
     if (data === "Square") {
+      this.currEditorData.map.shape = EnumARMapShape.SQUARE;
+      this.shapeNodeSquare.color = choiceColor;
       g_global.msgSys.showPrompt("设置成功,形状为矩阵");
       this.createMatrix();
     } else if (data === "Circular") {
+      this.currEditorData.map.shape = EnumARMapShape.CIRCULAR;
+      this.shapeNodeCircular.color = choiceColor;
       g_global.msgSys.showPrompt("设置成功,形状为圆形");
       this.createCircular();
     }
   }
   onSwitchMapAction(eve, data) {
+    let color = cc.Color.BLACK;
+    this.atcBtnRotate.color =  color.fromHEX("#7EEDFF");
+    this.atcBtnNone.color =  color.fromHEX("#7EEDFF");
+    let choiceColor =  color.fromHEX("#FFE70E");
     //旋转
     if (data === "rotateTo") {
+      this.currEditorData.map.shape = EnumARMapAction.ROTATE;
+      this.atcBtnRotate.color = choiceColor;
+      this.currEditorData.map.action = 1;
       g_global.msgSys.showPrompt("设置成功,试玩可以看到旋转效果哦");
       return;
+    }else if (data === "actNone"){
+      this.currEditorData.map.shape = EnumARMapAction.NONE;
+      this.atcBtnNone.color = choiceColor;
     }
     g_global.msgSys.showPrompt("设置成功,游戏时背景不动");
   }

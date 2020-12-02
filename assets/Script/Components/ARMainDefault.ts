@@ -1,26 +1,26 @@
 import _ from "underscore";
 import ResUtil from "../../Framework/Manager/ResManager/ResUtil";
+import EnumARMapAction from "../EnumARMapAction";
+import EnumARMapShape from "../EnumARMapShape";
 import g_global from "../GameGlobal";
 import ARMain from "./ARMain";
 const {ccclass, property} = cc._decorator;
 @ccclass
 export default class ARMainDefault extends ARMain {
-  gate=null;
   async setGate(gate){
-    this.gate = gate;
+    await super.setGate(gate)
     await this.createLevel(this.gate);
   }
   async createLevel(gate) {
-    await super.createLevel(gate)
-    if (!!gate) {
-      for (let ballInfo of gate) {
+    let list =   gate.list
+    await super.createLevel(list)
+    if (!!list) {
+      for (let ballInfo of list) {
         let ballNode = await ResUtil.getNodeByEnumPrefab(
           ballInfo.enumPrefab,
           this.node
         );
         let pos = this.node.convertToNodeSpaceAR(ballInfo.position);
-        //ballNode.setPosition(pos);
-
         this.addFinsh();
         ballNode.setPosition(cc.winSize.width, cc.winSize.height);
         ballNode.name ="_"+ this.addCnt;
