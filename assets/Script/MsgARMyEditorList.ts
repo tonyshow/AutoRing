@@ -17,7 +17,7 @@ export default class MsgARMyEditorList extends MsgBox {
   async onLoad() {
     await super.onLoad();
     let idx=0;
-    _.each(g_global.editorList, (data, key) => {
+    _.each(g_global.editorManager.getEditorList(), (data, key) => {
       this.addItem(key,idx,data);
       ++idx
     });
@@ -27,18 +27,17 @@ export default class MsgARMyEditorList extends MsgBox {
     this.setTxt(node,key,idx,data)
   }
 
-  setTxt(node:cc.Node,txt,idx,data){
+  setTxt(node:cc.Node,key,idx,data){
     let lb =  node.getChildByName("txt").getComponent(cc.Label);
     let bg =  node.getChildByName("bg");
     bg.color = idx%2==0?cc.Color.GRAY:cc.Color.WHITE
     bg.opacity=50;
-    lb.string = (idx+1)+"."+txt;
+    lb.string = (idx+1)+"."+key;
     node.x =idx%2==0?-cc.winSize.width:cc.winSize.width;//
-
     node.runAction( cc.moveTo(0.7+idx*0.04,0).easing(cc.easeBackOut()) )
-
     let ctr = node.getComponent(ARLookEditorItem);
     ctr.setData(data);
+    ctr.setKey(key);
     ctr.registerCallBack(this.onClose.bind(this))
   }
 

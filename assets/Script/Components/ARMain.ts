@@ -89,10 +89,10 @@ export default class ARMain extends Interface {
     this.gate = gate;
     this.calculationQTotal();
     g_global.gameUIDataManager.refreshIsEnemyCanEmit(false);
-
     if( EnumARMapAction.ROTATE === this.gate.map.action ){
       let compRotateTo =  this.node.addComponent(CompRotateTo);
       compRotateTo.setDuration(60);
+      compRotateTo.resetAction();
     }
   }
   getPosList(data?: { r?: number; centerPostion?: cc.Vec2; cnt?: number }) {

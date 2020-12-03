@@ -10,7 +10,7 @@ export default class AREditorCell extends Interface {
   @property({ tooltip: "球", type: cc.Node })
   bgNode: cc.Node = null;
   tag = 0;
-  childCell: cc.Node = null;
+  childCell: cc.Node = null;//球对象
   dragNode: cc.Node = null;
   enumPrefab=0;
   isCollider=true;
@@ -44,7 +44,11 @@ export default class AREditorCell extends Interface {
     if(!this.childCell){
       return null;
     }
+    if(!this.node.parent){
+      cc.error("节点获取不到");
+    }
     return {
+      tag:this.tag,
       enumPrefab: this.enumPrefab,
       position: this.node.parent.convertToWorldSpaceAR( this.node.position ),
     };
@@ -76,10 +80,12 @@ export default class AREditorCell extends Interface {
       this.enumPrefab=-1;
     } else {
       this.enumPrefab=currSelectEnumPrefab;
-      this.childCell = await ResUtil.getNodeByEnumPrefab(
+      let childCell :cc.Node= await ResUtil.getNodeByEnumPrefab(
         currSelectEnumPrefab,
         this.node
-      );
+      ) ;
+      this.childCell =childCell;
+      this.childCell.zIndex=100;
       let collider = this.childCell.getComponent(cc.Collider);
       if (!!collider) {
         collider.enabled = false;
@@ -132,13 +138,13 @@ export default class AREditorCell extends Interface {
     //this.isCollider = isCollider
     //this.collider.enabled = isCollider
   }
-  private onCollisionEnter(otherNode: any, selfNode: any) {
+  private async onCollisionEnter(otherNode: any, selfNode: any) {
     if(!this.isCollider)return;
     //被碰撞体直接攻击
     if (otherNode.tag == selfNode.tag || otherNode.tag != 100) {
       return;
     }
     let currSelectEnumPrefab = g_global.editorManager.getCurrSelect();
-    this.addBall(currSelectEnumPrefab);
+    await  this.addBall(currSelectEnumPrefab);
   }
 }

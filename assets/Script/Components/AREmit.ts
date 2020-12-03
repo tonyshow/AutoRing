@@ -35,6 +35,9 @@ export default class AREmit extends Interface {
   }
   onClick(eve) {
     var locationInNode = eve.target.convertToNodeSpaceAR(eve.getLocation());
+    if(!locationInNode){
+      return;
+    }
     this.emitNode.x = locationInNode.x;
     g_global.gameUIDataManager.refreshEmitWorldPosition(this.emitNode.parent.convertToWorldSpaceAR(this.emitNode.position))
     //

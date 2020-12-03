@@ -13,14 +13,16 @@ export default class MsgARSaveEditor extends MsgBox {
   @property({ tooltip: "强制保存按钮", type: cc.EditBox })
   editBox: cc.EditBox = null;
 
+  removeKey=null;
   onSaveClick() {
     let name = this.editBox.string;
     if(!name){
       return g_global.msgSys.showPrompt("取个响亮的名字", EnumPrompt.WARN);
     }
-    let isHave = g_global.isHaveSaveEditor(name);
+    this.doRemove();
+    let isHave = g_global.editorManager.isHaveSaveEditor(name);
     if (!isHave) {
-      g_global.addSaveEditor(name, this.data);
+      g_global.editorManager.addSaveEditor(name, this.data);
       g_global.msgSys.showPrompt("保存成功");
       this.onClose();
     } else {
@@ -34,7 +36,17 @@ export default class MsgARSaveEditor extends MsgBox {
   onSaveForceClick() {
     this.onClose();
     let name = this.editBox.string;
-    g_global.addSaveEditor(name, this.data);
+    this.doRemove();
+    g_global.editorManager.addSaveEditor(name, this.data);
     g_global.msgSys.showPrompt("覆盖成功", EnumPrompt.WARN);
+  }
+
+  setRemove(removeKey){
+    this.removeKey=removeKey;
+  }
+  doRemove(){
+    if(!!this.removeKey){
+      g_global.editorManager.remove(this.removeKey);
+    }
   }
 }

@@ -52,33 +52,47 @@ export default class AREditorMain extends Scene {
   @property({ tooltip: "开始制作或者修改属性", type: cc.Label })
   lbStartOrEditor: cc.Label = null;
 
-  isStartOrEditor : boolean = false;//开始制作或者重新编辑属性
-  currEditorData={
+  isStartOrEditor: boolean = false; //开始制作或者重新编辑属性
+  currEditorData = {
     //背景
-    map:{
-      action:EnumARMapAction.NONE,//动作
-      shape:EnumARMapShape.SQUARE,//形状
+    map: {
+      action: EnumARMapAction.ROTATE, //动作
+      shape: EnumARMapShape.SQUARE, //形状
     },
-    list:[]//球数据
-  };//当前编辑的map数据
+    list: [], //球数据
+  }; //当前编辑的map数据
 
   start() {
     this.eveList.push(["setMenuActive", this.setMenuActive.bind(this)]);
     this.eveList.push(["refreshEditor", this.refreshEditor.bind(this)]);
     super.start();
-    g_global.eveLister.emit("useCollider",false);
-    this.createCircular();
+    g_global.eveLister.emit("useCollider", false);
+    this.createGate();
   }
-  refreshEditor(data) {
-    this.onCleanAll();
+  //刷新编辑内容
+  async refreshEditor(data) {
+    this.currEditorData = data;
+    await this.createGate();
+    for (let info of data.list) {
+        this.spaceCellList[info.tag].addBall(info.enumPrefab);
+    }
+  }
+  async createGate() {
+    this.spaceCellList = [];
+    if (this.currEditorData.map.shape == EnumARMapShape.CIRCULAR) {
+      await this.createCircular();
+    } else if (this.currEditorData.map.shape == EnumARMapShape.SQUARE) {
+      await this.createMatrix();
+    }
+    this.setActionType(this.currEditorData.map.action);
+    this.setShapeType(this.currEditorData.map.shape);
   }
   setMenuActive(isActive) {
     this.menuNode.active = isActive;
   }
   async onLoad() {
     await super.onLoad();
-    cc.director.getCollisionManager().enabled = true; //开启碰撞检测，默认为关闭
-
+    cc.director.getCollisionManager().enabled = false; //开启碰撞检测，默认为关闭
     //可用材料
     let idx = 0;
     for (let prefabEnum of this.prefabList) {
@@ -102,10 +116,9 @@ export default class AREditorMain extends Scene {
     let leftFirst = false;
     let rowNum = 0; //单排数量
     let column = 0; //单列数量
-    let area = cc.winSize.width*cc.winSize.height;
-    let itemNode = await ResUtil.getNodeByEnumPrefab(
-      this.editorCellPrefab  );
-    this.cellCnt= Math.floor(area/(itemNode.width*itemNode.height))
+    let area = cc.winSize.width * cc.winSize.height;
+    let itemNode = await ResUtil.getNodeByEnumPrefab(this.editorCellPrefab);
+    this.cellCnt = Math.floor(area / (itemNode.width * itemNode.height));
     //背景形状
     for (let i = 0; i < this.cellCnt; ++i) {
       let ctr: AREditorCell = await ResUtil.getCompByEnumPrefab(
@@ -116,15 +129,15 @@ export default class AREditorMain extends Scene {
         leftFirst = true;
         rowNum = Math.ceil((cc.winSize.width * 0.5) / ctr.node.width);
         column = Math.ceil((cc.winSize.height * 0.5) / ctr.node.height);
-        rowNum*=2
-        rowNum+=1;
-        column*=2
-        column+=1;
+        rowNum *= 2;
+        rowNum += 1;
+        column *= 2;
+        column += 1;
       }
-      let idxX = i % (rowNum);
-      let idxY = Math.ceil(i / (rowNum));
-      let x = -rowNum*0.5 * ctr.node.width + idxX * ctr.node.width;
-      let y = column*0.5 * ctr.node.height - idxY * ctr.node.height;
+      let idxX = i % rowNum;
+      let idxY = Math.ceil(i / rowNum);
+      let x = -rowNum * 0.5 * ctr.node.width + idxX * ctr.node.width;
+      let y = column * 0.5 * ctr.node.height - idxY * ctr.node.height;
       ctr.node.x = x;
       ctr.node.y = y;
       this.spaceCellList.push(ctr);
@@ -155,7 +168,8 @@ export default class AREditorMain extends Scene {
           position.x < -cc.winSize.width * 0.5 - 100;
         let yout =
           position.y > cc.winSize.height * 0.5 + 100 ||
-          position.y < -cc.winSize.height * 0.5 - 100 || position.y < -cc.winSize.height * 0.3 ;
+          position.y < -cc.winSize.height * 0.5 - 100 ||
+          position.y < -cc.winSize.height * 0.3;
         if (xout || yout) {
           continue;
         }
@@ -177,7 +191,7 @@ export default class AREditorMain extends Scene {
       return;
     }
     g_global.editorManager.setCurrMapData(list);
-    g_global.scene.goScene(EnumScene.ARTryPlay)
+    g_global.scene.goScene(EnumScene.ARTryPlay);
   }
 
   //保存编辑
@@ -186,11 +200,10 @@ export default class AREditorMain extends Scene {
     if (!list) {
       return;
     }
-    this.currEditorData.list=list
-    g_global.msgManager.show(EnumPrefab.MsgARSaveEditor,  this.currEditorData);
+    g_global.msgManager.show(EnumPrefab.MsgARSaveEditor, this.currEditorData);
   }
   /**
-   * 我得编辑列表
+   * 我的编辑列表
    */
   onMyEditorList() {
     g_global.msgManager.show(EnumPrefab.MsgARMyEditorList);
@@ -211,9 +224,10 @@ export default class AREditorMain extends Scene {
       });
       return null;
     }
-    return list;
+    this.currEditorData.list = list;
+    return this.currEditorData;
   }
-  readEditor() {
+  private readEditor() {
     let editorBallInfoList = [];
     for (let cell of this.spaceCellList) {
       let addBall = (cell as AREditorCell).getEditorData();
@@ -223,56 +237,77 @@ export default class AREditorMain extends Scene {
     }
     return editorBallInfoList;
   }
-  onSwitchMapShape(eve, data) {
+  setShapeType(shapeType) {
     let color = cc.Color.BLACK;
-    this.shapeNodeCircular.color = color.fromHEX("#7EEDFF");
-    this.shapeNodeSquare.color = color.fromHEX("#7EEDFF");
-
-    let choiceColor =  color.fromHEX("#FFE70E");
-    this.node.removeAllChildren(true);
-    if (data === "Square") {
-      this.currEditorData.map.shape = EnumARMapShape.SQUARE;
-      this.shapeNodeSquare.color = choiceColor;
-      g_global.msgSys.showPrompt("设置成功,形状为矩阵");
-      this.createMatrix();
-    } else if (data === "Circular") {
-      this.currEditorData.map.shape = EnumARMapShape.CIRCULAR;
+    this.shapeNodeCircular.color = color.fromHEX("#FFFFFF");
+    this.shapeNodeSquare.color = color.fromHEX("#FFFFFF");
+    this.shapeNodeCircular.opacity = 100;
+    this.shapeNodeSquare.opacity = 100;
+    let choiceColor = color.fromHEX("#FFE70E");
+    if (shapeType === EnumARMapShape.CIRCULAR) {
       this.shapeNodeCircular.color = choiceColor;
+      this.shapeNodeCircular.opacity = 255;
+    } else if (shapeType === EnumARMapShape.SQUARE) {
+      this.shapeNodeSquare.color = choiceColor;
+      this.shapeNodeSquare.opacity = 255;
+    }
+    this.currEditorData.map.shape = shapeType;
+  }
+  async onSwitchMapShape(eve, data) {
+    let type = Number(data);
+    this.setShapeType(type);
+    this.node.removeAllChildren(true);
+    if (type === EnumARMapShape.SQUARE) {
+      g_global.msgSys.showPrompt("设置成功,形状为矩阵");
+      await this.createMatrix();
+    } else if (type === EnumARMapShape.CIRCULAR) {
       g_global.msgSys.showPrompt("设置成功,形状为圆形");
-      this.createCircular();
+      await this.createCircular();
     }
   }
-  onSwitchMapAction(eve, data) {
+  //--------------------------------------------------
+  setActionType(actionType) {
     let color = cc.Color.BLACK;
-    this.atcBtnRotate.color =  color.fromHEX("#7EEDFF");
-    this.atcBtnNone.color =  color.fromHEX("#7EEDFF");
-    let choiceColor =  color.fromHEX("#FFE70E");
-    //旋转
-    if (data === "rotateTo") {
-      this.currEditorData.map.shape = EnumARMapAction.ROTATE;
+    this.atcBtnRotate.color = color.fromHEX("#FFFFFF");
+    this.atcBtnNone.color = color.fromHEX("#FFFFFF");
+    this.atcBtnNone.opacity = 100;
+    this.atcBtnRotate.opacity = 100;
+    let choiceColor = color.fromHEX("#FFE70E");
+    if (actionType === EnumARMapAction.ROTATE) {
       this.atcBtnRotate.color = choiceColor;
-      this.currEditorData.map.action = 1;
+      this.atcBtnRotate.opacity = 255;
+    } else if (actionType === EnumARMapAction.NONE) {
+      this.atcBtnNone.color = choiceColor;
+      this.atcBtnNone.opacity = 255;
+    }
+    this.currEditorData.map.action = actionType;
+  }
+  onSwitchMapAction(eve, data) {
+    let type = Number(data);
+    this.setActionType(type);
+    //旋转
+    if (type === EnumARMapAction.ROTATE) {
       g_global.msgSys.showPrompt("设置成功,试玩可以看到旋转效果哦");
       return;
-    }else if (data === "actNone"){
-      this.currEditorData.map.shape = EnumARMapAction.NONE;
-      this.atcBtnNone.color = choiceColor;
+    } else if (type === EnumARMapAction.NONE) {
     }
     g_global.msgSys.showPrompt("设置成功,游戏时背景不动");
   }
   //开始制作和重新编辑属性
-  onStartWorlOrResetEditor(){
-    this.isStartOrEditor = !this.isStartOrEditor?true:false;
+  onStartWorlOrResetEditor() {
+    this.isStartOrEditor = !this.isStartOrEditor ? true : false;
 
-    this.bgActonNode.active = !this.isStartOrEditor
-    this.bgShapeNode.active = !this.isStartOrEditor
+    this.bgActonNode.active = !this.isStartOrEditor;
+    this.bgShapeNode.active = !this.isStartOrEditor;
 
-    this.myEditorListNode.active = !this.isStartOrEditor
-    this.backGameNode.active = !this.isStartOrEditor
+    this.myEditorListNode.active = !this.isStartOrEditor;
+    this.backGameNode.active = !this.isStartOrEditor;
 
-    this.lbStartOrEditor.string = !this.isStartOrEditor?"开始制作":"修改属性";
+    this.lbStartOrEditor.string = !this.isStartOrEditor
+      ? "开始制作"
+      : "修改属性";
 
     cc.director.getCollisionManager().enabled = this.isStartOrEditor;
-    g_global.eveLister.emit("useCollider",this.isStartOrEditor);
+    g_global.eveLister.emit("useCollider", this.isStartOrEditor);
   }
 }

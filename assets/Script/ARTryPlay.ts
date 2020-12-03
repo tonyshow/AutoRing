@@ -15,6 +15,7 @@ export default class ARTryPlay extends Scene {
   async onLoad() {
     g_global.eveLister.emit("useCollider",false);
     this.createBalls();
+    cc.director.getCollisionManager().enabled = true; //开启碰撞检测，默认为关闭
   }
   onNextLevel(){
     g_global.msgSys.showPrompt("成功过关!!");

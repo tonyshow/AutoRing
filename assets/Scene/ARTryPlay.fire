@@ -174,7 +174,7 @@
       "array": [
         0,
         0,
-        455.516397643279,
+        454.9610332193812,
         0,
         0,
         0,
@@ -942,11 +942,13 @@
       "__id__": 22
     },
     "_enabled": true,
-    "enumAutoPrefab": 1,
+    "enumAutoPrefab": 3,
     "autoPrefabList": [
-      0
+      32
     ],
-    "autoParentNode": null,
+    "autoParentNode": {
+      "__id__": 6
+    },
     "_id": "4ff18/kAhP7IlbE9QqznEf"
   },
   {
@@ -1002,7 +1004,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -229.602,
+        -229.60199999999998,
         430.435,
         0,
         0,
@@ -1070,8 +1072,8 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 1,
-    "_left": 0,
+    "_alignFlags": 9,
+    "_left": 10.398000000000025,
     "_right": 0,
     "_top": 112.36500000000001,
     "_bottom": 0,
