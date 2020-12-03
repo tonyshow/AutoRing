@@ -64,13 +64,18 @@ export default class AREditorMain extends Scene {
 
   start() {
     this.eveList.push(["setMenuActive", this.setMenuActive.bind(this)]);
-    this.eveList.push(["refreshEditor", this.refreshEditor.bind(this)]);
+    this.eveList.push(["refreshEditor", this.onRefreshEditor.bind(this)]);
     super.start();
     g_global.eveLister.emit("useCollider", false);
     this.createGate();
   }
+  onRefreshEditor(data){
+    this.refreshEditor(data);
+  }
   //刷新编辑内容
   async refreshEditor(data) {
+    this.node.removeAllChildren(true);
+    this.spaceCellList=[];
     this.currEditorData = data;
     await this.createGate();
     for (let info of data.list) {

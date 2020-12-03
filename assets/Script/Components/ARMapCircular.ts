@@ -4,6 +4,7 @@
 import _ from "underscore";
 import ResUtil from "../../Framework/Manager/ResManager/ResUtil";
 import Utils from "../../Framework/Utils/Utils";
+import EnumARMapAction from "../EnumARMapAction";
 import ARMain from "./ARMain";
 
 const { ccclass, property } = cc._decorator;
@@ -13,6 +14,8 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ARMapCircular extends ARMain {
   async createLevel(gate) {
+    gate.map={ action: EnumARMapAction.ROTATE}
+
     await super.createLevel(gate)
     for (let info of gate.list) {
       let list = this.getPosList(info);

@@ -29,7 +29,6 @@ export default class AREditorCell extends Interface {
     this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
     this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
     this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this);
-    //this.collider = this.node.getComponent(cc.BoxCollider);
   }
   public getChildCnt(): number {
     return this.node.childrenCount;
