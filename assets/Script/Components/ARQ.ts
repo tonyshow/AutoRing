@@ -37,13 +37,16 @@ export default class ARQ extends cc.Component {
     }
   }
 
-  doDestroy() {
+  async doDestroy() {
     if (!!this.isRming) {
       return;
     }
+    let currWorldPosition = this.node.parent.convertToWorldSpaceAR( this.node.position )
+    let boom:cc.Node = await  ResUtil.getNodeByEnumPrefab( EnumPrefab.ARBoomEffect,this.node.parent )
+    boom.setPosition(  this.node.parent.convertToNodeSpaceAR(currWorldPosition) );
     this.isRming = true;
     let act = cc.sequence(
-      cc.scaleTo(0.01, 0).easing(cc.easeBackInOut()),
+      cc.scaleTo(0.1, 0).easing(cc.easeBackInOut()),
       cc.callFunc(() => {
         this.node.destroy();
       })

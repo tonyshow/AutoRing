@@ -1,7 +1,9 @@
+import EnumPrefab from "../Framework/Auto/EnumPrefab";
 import Scene from "../Framework/Interface/Scene/Scene";
 import ResUtil from "../Framework/Manager/ResManager/ResUtil";
 import ARMain from "./Components/ARMain";
 import g_global from "./GameGlobal";
+import MsgARLevelResult from "./Msg/MsgARLevelResult";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -17,23 +19,28 @@ export default class ARGame extends Scene {
   iniTitleX = 0;
   timeout = null;
   async onLoad() {
-    console.log("ARGame.onLoad");
-    this.iniTitleY = this.titleNode.y;
-    this.iniTitleX = this.titleNode.x;
     await super.onLoad();
   }
   start() {
+    this.titleNode.getComponent(cc.Widget).updateAlignment();
+    this.iniTitleY = this.titleNode.y;
+    this.iniTitleX = this.titleNode.x;
     console.log("ARGame.start");
     this.eveList.push(["armaprm", this.onNextLevel.bind(this)]);
     super.start();
     cc.director.getCollisionManager().enabled = true; //开启碰撞检测，默认为关闭
     this.loadMap();
   }
-  onNextLevel() {
-    this.doSwitchLevelTitle();
-    this.timeout = setTimeout(() => {
-      this.loadMap();
-    }, 2000);
+  async onNextLevel() {
+    let MsgARLevelResultNode: cc.Node = await g_global.msgManager.show(
+      EnumPrefab.MsgARLevelResult
+    );
+    let msgARLevelResult = MsgARLevelResultNode.getComponent(MsgARLevelResult);
+    msgARLevelResult.register(() => {
+      this.doSwitchLevelTitle(()=>{
+        this.loadMap();
+      });
+    });
   }
   onDestroy() {
     super.onDestroy();
@@ -42,30 +49,34 @@ export default class ARGame extends Scene {
       clearTimeout(this.timeout);
     }
   }
-  doSwitchLevelTitle() {
+  doSwitchLevelTitle(cb) {
+    cc.error(this.iniTitleX);
     this.titleNode.runAction(
       cc.sequence(
         cc.spawn(
-          cc.fadeOut(0.4),
+          cc.fadeOut(0.1),
           cc
             .moveTo(
-              0.4,
+              0.1,
               -0.5 * cc.winSize.width - this.titleNode.width,
               this.iniTitleY
             )
             .easing(cc.easeBackIn())
         ),
         cc.callFunc(() => {
+          cb();
           this.titleNode.setPosition(
             0.5 * cc.winSize.width + this.titleNode.width,
             this.iniTitleY
           );
           this.titleLb.string = `第 ${this.currLevel + 1} 关`;
         }),
-        cc.delayTime(1),
+        cc.delayTime(0.4),
         cc.spawn(
-          cc.fadeIn(0.5),
-          cc.moveTo(0.5, this.iniTitleX, this.iniTitleY).easing(cc.easeBackOut())
+          cc.fadeIn(0.3),
+          cc
+            .moveTo(0.3, this.iniTitleX, this.iniTitleY)
+            .easing(cc.easeBackOut())
         )
       )
     );

@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "cf9f4c14-f0f0-4f9b-88f7-0b93fdbe9e32",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 256,
+  "height": 256,
+  "platformSettings": {},
+  "subMetas": {
+    "ARBoom_1_1": {
+      "ver": "1.0.4",
+      "uuid": "0cf6c8e1-767d-4a28-bffd-335755967aa4",
+      "rawTextureUuid": "cf9f4c14-f0f0-4f9b-88f7-0b93fdbe9e32",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -9.5,
+      "offsetY": 12,
+      "trimX": 31,
+      "trimY": 37,
+      "width": 175,
+      "height": 158,
+      "rawWidth": 256,
+      "rawHeight": 256,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
