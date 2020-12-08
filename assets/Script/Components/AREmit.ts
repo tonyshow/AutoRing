@@ -19,8 +19,13 @@ export default class AREmit extends Interface {
   emitBulletParentNode: cc.Node = null;
 
   emitNode:cc.Node=null;//发射器对象
+
+
+  @property({ tooltip: "发射球音效", type: cc.AudioClip })
+  audio: cc.AudioClip = null;
+
   async start(){
-    this.eveList.push(["ARCleanAllQ",this.doCleanAllQ.bind(this)]);
+    this.eveList.push(["ARCleanEmit",this.doCleanAllQ.bind(this)]);
     super.start()
     this.emitNode =await ResUtil.getNodeByEnumPrefab(this.emitPrefab ,this.emitParentNode)
     this.emitNode.setPosition(this.emitParentNode.convertToNodeSpaceAR(this.emitParentNode.parent.convertToWorldSpaceAR(this.emitParentNode.position)))
@@ -52,6 +57,7 @@ export default class AREmit extends Interface {
     if(!g_global.gameUIDataManager.isEnemyCanEmit){
       return;
     }
+    cc.audioEngine.play(this.audio, false, 1);
     var emitQNode =await ResUtil.getNodeByEnumPrefab(this.emitQPrefab ,this.emitBulletParentNode)
     emitQNode.setPosition(this.emitBulletParentNode.convertToNodeSpaceAR(this.emitParentNode.convertToWorldSpaceAR(this.emitNode.getPosition())));
     emitQNode.runAction(this.emitAction());

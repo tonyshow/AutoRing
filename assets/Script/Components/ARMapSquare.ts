@@ -2,37 +2,15 @@
  *正方形
  */
 import _ from "underscore";
-import ResUtil from "../../Framework/Manager/ResManager/ResUtil";
 import EnumARMapAction from "../EnumARMapAction";
-import ARMain from "./ARMain";
+import ARMapTable from "./ARMapTable";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class ARMapSquare extends ARMain {
+export default class ARMapSquare extends ARMapTable {
   async createLevel(gate) {
-    gate.map={ action: EnumARMapAction.ROTATE}
+    gate.map = { action: EnumARMapAction.ROTATE };
     await super.createLevel(gate);
-    for (let info of gate.list) {
-      let list = this.getPosList(info);
-      for (let pos of list) {
-        this.addFinsh();
-        let node = await ResUtil.getNodeByEnumPrefab(
-          info.PrefabNameList,
-          this.node
-        );
-        node.setPosition(cc.winSize.width, cc.winSize.height);
-        node.name = info.id + "_" + this.addCnt;
-        node.runAction(
-          cc.sequence([
-            cc.delayTime(this.addCnt * 0.005),
-            cc.moveTo(0.3, pos),
-            cc.callFunc(() => {
-              this.addAnimFinsh();
-            }),
-          ])
-        );
-      }
-    }
   }
   //正方形
   getPosList(data?: { cnt?: number }) {
@@ -65,8 +43,7 @@ export default class ARMapSquare extends ARMain {
     return cnt;
   }
 
-  async doEnemyAtc(atcQEnumPrefab,worldPosition){
-    //cc.error("ARMapSquare.doEnemyAtc")
-    await super.doEnemyAtc(atcQEnumPrefab,worldPosition)
+  async doEnemyAtc(atcQEnumPrefab, worldPosition) {
+    await super.doEnemyAtc(atcQEnumPrefab, worldPosition);
   }
 }

@@ -14,19 +14,20 @@ export default class ARMainDefault extends ARMain {
   async createLevel(gate) {
     let list = gate.list;
     await super.createLevel(gate);
+    let idx=0;
     if (!!list) {
       for (let ballInfo of list) {
+        ++idx;
         let ballNode = await ResUtil.getNodeByEnumPrefab(
           ballInfo.enumPrefab,
           this.node
         );
         let pos = this.node.convertToNodeSpaceAR(ballInfo.position);
-        this.addFinsh();
         ballNode.setPosition(cc.winSize.width, cc.winSize.height);
-        ballNode.name = "_" + this.addCnt;
+        ballNode.name = "_" + idx;
         ballNode.runAction(
           cc.sequence([
-            cc.delayTime(this.addCnt * 0.005),
+            cc.delayTime(idx * 0.005),
             cc.moveTo(0.3, pos),
             cc.callFunc(() => {
               this.addAnimFinsh();

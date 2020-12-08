@@ -186,7 +186,7 @@
       "array": [
         0,
         0,
-        453.78439613132736,
+        442.82314591946493,
         0,
         0,
         0,
@@ -1234,6 +1234,9 @@
     },
     "emitBulletParentNode": {
       "__id__": 25
+    },
+    "audio": {
+      "__uuid__": "5b2f30bb-262c-439e-aa4f-967f30565e86"
     },
     "_id": "a9Y/rDmJxOMKeJDCYVkbal"
   },

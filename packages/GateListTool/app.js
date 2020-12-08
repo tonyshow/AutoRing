@@ -63,12 +63,13 @@ app.getLevels = function (table) {
     g_leveInfo += table.name + ":[";
     let byteNameList = [];
     _.each(table.data, (list, idx) => {
-      //console.log(idx, list);
       if (1 == idx) {
         byteNameList = list;
       } else if (idx > 1) {
         g_leveInfo += `{`;
+        //let idx=0;
         for (let key in list) {
+          //++idx;
           let keyName = byteNameList[key];
           let value =
             "string" == typeof list[key]
@@ -78,12 +79,26 @@ app.getLevels = function (table) {
                     : "EnumPrefab" + "." + list[key]
                 }`
               : `${list[key]}`;
-          g_leveInfo += `${byteNameList[key]}:${value},`;
+
+          if(byteNameList[key]=="probabilitys"){
+            value=value.replace(/\"/g,"");
+            let valueList = value.split("#");
+            let per =  Number(valueList[1])
+            let list = `[EnumPrefab.${valueList[0]},${per} ]`
+            g_leveInfo += `${byteNameList[key]}:${list},`;
+          }else{
+            g_leveInfo += `${byteNameList[key]}:${value},`;
+          }
+
+          //g_leveInfo += idx==_.size(list)?"":","
         }
         g_leveInfo += `},`;
+        //g_leveInfo += idx1==_.size(table.data)?`}`:`},`
       }
     });
     g_leveInfo += "],";
+
+
   }
 };
 
@@ -132,6 +147,10 @@ ${gateInfo}
   }
 }
     `;
+
+    saveInfo = saveInfo.replace(/\,\}/g,"}")
+    saveInfo = saveInfo.replace(/\,\]/g,"]")
+    saveInfo = saveInfo.replace(/\,\};/g,"};")
   utilBuild.saveFile(
     path.resolve(__dirname, "./../../assets/Script/Data/DataLevelManager.ts"),
     saveInfo

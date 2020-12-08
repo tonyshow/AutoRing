@@ -4,6 +4,7 @@ import Interface from "../../Framework/Interface/Interface";
 import ResUtil from "../../Framework/Manager/ResManager/ResUtil";
 import EnumARMapAction from "../EnumARMapAction";
 import EnumARMapShape from "../EnumARMapShape";
+import EnumQType from "../EnumQType";
 import g_global from "../GameGlobal";
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -13,6 +14,8 @@ export default class ARMain extends Interface {
   addEdQCnt = 0; //有入场动画的要等动画执行完成
   isRm = false;
   totalQCnt = 0; //关卡总球数
+  canEatQcnt=0;//可吃球数量
+  rmQCnt=0;
   gate = {
     //背景
     map:{
@@ -27,31 +30,20 @@ export default class ARMain extends Interface {
     this.addEdQCnt = 0; //有入场动画的要等动画执行完成
     this.isRm = false;
     this.totalQCnt = 0; //关卡总球数
+    this.canEatQcnt = 0;//
+    this.rmQCnt=0;//已经移除的球数量
     this.gate = null; //关卡数据
   }
   async setGate(gate){
     this.gate = gate;
   }
-
   start() {
     //接受攻击指令
     this.eveList.push(["ARAtc", this.doEnemyAtc.bind(this)]);
+    this.eveList.push(["rmEnumQType", this.doRmEnumQType.bind(this)]);
+    this.eveList.push(["doAddEnumQType", this.doAddEnumQType.bind(this)]);
+    //cc.error("添加监听 doAddEnumQType");
     super.start();
-    this.interval = setInterval(() => {
-      if (
-        this.addCnt > 0 &&
-        !this.isRm &&
-        !!this.node &&
-        0 === this.node.childrenCount
-      ) {
-        this.isRm = true;
-        g_global.gameUIDataManager.refreshIsEnemyCanEmit(false)
-        g_global.eveLister.emit("ARCleanAllQ",true);
-        g_global.eveLister.emit("armaprm");
-        this.node.destroy();
-        clearInterval(this.interval);
-      }
-    }, 200);
   }
   /**敌人发射攻击 */
   async doEnemyAtc(atcQEnumPrefab, worldPosition) {
@@ -73,14 +65,38 @@ export default class ARMain extends Interface {
       ])
     );
   }
-  addFinsh(addCnt: number = 1) {
-    this.addCnt += addCnt;
+  doRmEnumQType(qType){
+    if(EnumQType.DEATH !=qType){
+      ++this.rmQCnt;
+      if (
+        this.addCnt > 0 &&
+        !this.isRm &&
+        !!this.node &&
+        0!=this.canEatQcnt &&
+        this.canEatQcnt == this.rmQCnt
+      ) {
+        this.isRm = true;
+        g_global.gameUIDataManager.refreshIsEnemyCanEmit(false)
+        g_global.eveLister.emit("ARCleanEmit",true);
+        setTimeout(()=>{
+          g_global.eveLister.emit("onNextLevel");
+          this.node.destroy();
+        } ,800 )
+      }
+    }
+  }
+  doAddEnumQType(qType){
+    if(EnumQType.DEATH !=qType){
+      ++this.canEatQcnt
+    }
+    ++this.addCnt;
   }
   addAnimFinsh(addEdQCnt: number = 1) {
     this.addEdQCnt += addEdQCnt;
     /**添加完成 */
     if (this.addEdQCnt >= this.totalQCnt && this.totalQCnt != 0) {
       g_global.gameUIDataManager.refreshIsEnemyCanEmit(true)
+      cc.error("this.canEatQcnt = "+this.canEatQcnt);
     }
   }
   /**重新创建关卡的时候关闭发射 */

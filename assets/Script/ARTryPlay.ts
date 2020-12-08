@@ -15,7 +15,7 @@ export default class ARTryPlay extends Scene {
   async onLoad() {
     g_global.eveLister.emit("useCollider",false);
     this.createBalls();
-    cc.director.getCollisionManager().enabled = true; //开启碰撞检测，默认为关闭
+    g_global.openCollision(true);
   }
   onNextLevel(){
     g_global.msgSys.showPrompt("成功过关!!");
@@ -33,7 +33,7 @@ export default class ARTryPlay extends Scene {
     g_global.scene.goScene(EnumScene.AREditorMain)
   }
   async start() {
-    this.eveList.push(["armaprm", this.onNextLevel.bind(this)]);
+    this.eveList.push(["onNextLevel", this.onNextLevel.bind(this)]);
     super.start();
   }
 }

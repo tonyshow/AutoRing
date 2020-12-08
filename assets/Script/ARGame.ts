@@ -26,9 +26,9 @@ export default class ARGame extends Scene {
     this.iniTitleY = this.titleNode.y;
     this.iniTitleX = this.titleNode.x;
     console.log("ARGame.start");
-    this.eveList.push(["armaprm", this.onNextLevel.bind(this)]);
+    this.eveList.push(["onNextLevel", this.onNextLevel.bind(this)]);
     super.start();
-    cc.director.getCollisionManager().enabled = true; //开启碰撞检测，默认为关闭
+    g_global.openCollision(true);
     this.loadMap();
   }
   async onNextLevel() {

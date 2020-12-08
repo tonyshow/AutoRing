@@ -97,7 +97,7 @@ export default class AREditorMain extends Scene {
   }
   async onLoad() {
     await super.onLoad();
-    cc.director.getCollisionManager().enabled = false; //开启碰撞检测，默认为关闭
+    g_global.openCollision(false);
     //可用材料
     let idx = 0;
     for (let prefabEnum of this.prefabList) {
@@ -312,7 +312,7 @@ export default class AREditorMain extends Scene {
       ? "开始制作"
       : "修改属性";
 
-    cc.director.getCollisionManager().enabled = this.isStartOrEditor;
+      g_global.openCollision(this.isStartOrEditor);
     g_global.eveLister.emit("useCollider", this.isStartOrEditor);
   }
 }
