@@ -11,7 +11,9 @@ export default class ARMapTable extends ARMain {
   async createLevel(gate) {
     await super.createLevel(gate);
     let idx = 0;
+    let tag = 0;
     for (let info of gate.list) {
+      ++tag
       let list = this.getPosList(info);
       let per = null;
       if (!!info.probabilitys) {
@@ -27,6 +29,8 @@ export default class ARMapTable extends ARMain {
         }
         let node = await ResUtil.getNodeByEnumPrefab(PrefabName, this.node);
         node.setPosition(cc.winSize.width, cc.winSize.height);
+        let collider = node.getComponent(cc.Collider);
+        collider.tag=tag
         ++idx;
         node.name = info.id + "_" + idx;
         node.runAction(

@@ -1,12 +1,13 @@
 import _ from "underscore";
 import EnumPrefab from "../../Framework/Auto/EnumPrefab";
+import Interface from "../../Framework/Interface/Interface";
 import ResUtil from "../../Framework/Manager/ResManager/ResUtil";
 import EnumQType from "../EnumQType";
 import g_global from "../GameGlobal";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class ARQ extends cc.Component {
+export default class ARQ extends Interface {
   @property({ tooltip: "球类型", type: cc.Enum(EnumQType) })
   qType = EnumQType.NONE;
 
@@ -16,6 +17,8 @@ export default class ARQ extends cc.Component {
   start(){
     g_global.eveLister.emit("doAddEnumQType",this.qType)
     //cc.error("通知 doAddEnumQType");
+    this.eveList.push(["ARQSelfDestroy",this.selfDestroy.bind(this)])//自废
+    super.start();
   }
   onCollisionEnter(otherNode: any, selfNode: any) {
     //被碰撞体直接攻击
@@ -66,5 +69,11 @@ export default class ARQ extends cc.Component {
     );
     this.node.stopAllActions();
     this.node.runAction(act);
+  }
+
+  selfDestroy(){
+    setTimeout( ()=>{
+      this.doDestroy();
+    } ,_.random(0,499))
   }
 }

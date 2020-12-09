@@ -14,27 +14,27 @@ export default class ARMain extends Interface {
   addEdQCnt = 0; //有入场动画的要等动画执行完成
   isRm = false;
   totalQCnt = 0; //关卡总球数
-  canEatQcnt=0;//可吃球数量
-  rmQCnt=0;
+  canEatQcnt = 0; //可吃球数量
+  rmQCnt = 0;
   gate = {
     //背景
-    map:{
-      action:EnumARMapAction.NONE,//动作
-      shape:EnumARMapShape.SQUARE,//形状
+    map: {
+      action: EnumARMapAction.NONE, //动作
+      shape: EnumARMapShape.SQUARE, //形状
     },
-    list:[]//球数据
-  };//当前编辑的map数据
+    list: [], //球数据
+  }; //当前编辑的map数据
   init() {
     this.interval = null;
     this.addCnt = 0; //有入场动画的要等动画执行完成
     this.addEdQCnt = 0; //有入场动画的要等动画执行完成
     this.isRm = false;
     this.totalQCnt = 0; //关卡总球数
-    this.canEatQcnt = 0;//
-    this.rmQCnt=0;//已经移除的球数量
+    this.canEatQcnt = 0; //
+    this.rmQCnt = 0; //已经移除的球数量
     this.gate = null; //关卡数据
   }
-  async setGate(gate){
+  async setGate(gate) {
     this.gate = gate;
   }
   start() {
@@ -65,29 +65,33 @@ export default class ARMain extends Interface {
       ])
     );
   }
-  doRmEnumQType(qType){
-    if(EnumQType.DEATH !=qType){
+  doRmEnumQType(qType) {
+    if (EnumQType.DEATH != qType) {
       ++this.rmQCnt;
       if (
         this.addCnt > 0 &&
         !this.isRm &&
         !!this.node &&
-        0!=this.canEatQcnt &&
+        0 != this.canEatQcnt &&
         this.canEatQcnt == this.rmQCnt
       ) {
         this.isRm = true;
-        g_global.gameUIDataManager.refreshIsEnemyCanEmit(false)
-        g_global.eveLister.emit("ARCleanEmit",true);
-        setTimeout(()=>{
+        g_global.gameUIDataManager.refreshIsEnemyCanEmit(false);
+        g_global.eveLister.emit("ARCleanEmit", true);
+
+        setTimeout(() => {
+          g_global.eveLister.emit("ARQSelfDestroy");
+        }, 200);
+        setTimeout(() => {
           g_global.eveLister.emit("onNextLevel");
           this.node.destroy();
-        } ,800 )
+        }, 1000);
       }
     }
   }
-  doAddEnumQType(qType){
-    if(EnumQType.DEATH !=qType){
-      ++this.canEatQcnt
+  doAddEnumQType(qType) {
+    if (EnumQType.DEATH != qType) {
+      ++this.canEatQcnt;
     }
     ++this.addCnt;
   }
@@ -95,8 +99,8 @@ export default class ARMain extends Interface {
     this.addEdQCnt += addEdQCnt;
     /**添加完成 */
     if (this.addEdQCnt >= this.totalQCnt && this.totalQCnt != 0) {
-      g_global.gameUIDataManager.refreshIsEnemyCanEmit(true)
-      cc.error("this.canEatQcnt = "+this.canEatQcnt);
+      g_global.gameUIDataManager.refreshIsEnemyCanEmit(true);
+      cc.error("this.canEatQcnt = " + this.canEatQcnt);
     }
   }
   /**重新创建关卡的时候关闭发射 */
@@ -105,8 +109,8 @@ export default class ARMain extends Interface {
     this.gate = gate;
     this.calculationQTotal();
     g_global.gameUIDataManager.refreshIsEnemyCanEmit(false);
-    if( EnumARMapAction.ROTATE === this.gate.map.action ){
-      let compRotateTo =  this.node.addComponent(CompRotateTo);
+    if (EnumARMapAction.ROTATE === this.gate.map.action) {
+      let compRotateTo = this.node.addComponent(CompRotateTo);
       compRotateTo.setDuration(60);
       compRotateTo.resetAction();
     }
@@ -119,7 +123,7 @@ export default class ARMain extends Interface {
    * 计算总数
    */
   protected calculationQTotal() {
-    return 0;//子类计算
+    return 0; //子类计算
   }
   onDestroy() {
     super.onDestroy();
