@@ -8,7 +8,7 @@ var utilBuild = require("./../Framework/utilTool/utilBuild");
 var app = (module.exports = {});
 var g_gateInfo = "";
 var g_leveInfo = "";
-var getGateByLevelIdReturn = ":{levelId?; levelTableName?; mapPrefabName?;}";
+var getGateByLevelIdReturn = ":{levelId?; levelTableName?; mapPrefabName?;list?;}";
 app.main = function () {
   exec(`rm -r -f output`, () => {
     utilBuild.mkdirsSync(path.resolve(__dirname, "./output"));
@@ -16,7 +16,6 @@ app.main = function () {
     var list = xlsx.parse(xlsxFilePath);
     _.each(list, (table, idx) => {
       app.getGateLists(table,idx);
-      //app.getGateList(table);
       app.getLevels(table);
     });
     app.saveFile(g_gateInfo, g_leveInfo);
@@ -25,37 +24,7 @@ app.main = function () {
 app.getGateLists = function (table,idx) {
   let levelName = table.name;
   let mapName = table.data[0][0];
-  g_gateInfo+=`{levelId: ${idx},levelTableName:"${levelName}",mapPrefabName:EnumPrefab.${mapName}},`
-
-  //_.each(table.data, (list, idx) => {
-  //  if (1 == idx) {
-  //    byteNameList = list;
-  //    getGateByLevelIdReturn = ":{";
-  //    for (let keyName of list) {
-  //      getGateByLevelIdReturn += keyName + "?,";
-  //    }
-  //    getGateByLevelIdReturn += "list?";
-  //    getGateByLevelIdReturn += "}";
-  //  } else if (idx > 1) {
-  //    infoList += `{`;
-  //    for (let key in list) {
-  //      let keyName = byteNameList[key];
-  //      let value =
-  //        "string" == typeof list[key]
-  //          ? `${
-  //              -1 == keyName.indexOf("PrefabName")
-  //                ? `"${list[key]}"`
-  //                : "EnumPrefab" + "." + list[key]
-  //            }`
-  //          : `${list[key]}`;
-  //      infoList += `${byteNameList[key]}:${value},`;
-  //    }
-  //    infoList += "list:[],";
-  //    infoList += `},`;
-  //  }
-  //});
-  //g_gateInfo = infoList;
-  //return infoList;
+  g_gateInfo+=`{levelId: ${idx},levelTableName:"${levelName}",mapPrefabName:EnumPrefab.${mapName},list:[]},`
 };
 app.getGateList = function (table) {
   let infoList = "";
@@ -102,9 +71,7 @@ app.getLevels = function (table) {
         byteNameList = list;
       } else if (idx > 2) {
         g_leveInfo += `{`;
-        //let idx=0;
         for (let key in list) {
-          //++idx;
           let keyName = byteNameList[key];
           let value =
             "string" == typeof list[key]
@@ -124,11 +91,8 @@ app.getLevels = function (table) {
           }else{
             g_leveInfo += `${byteNameList[key]}:${value},`;
           }
-
-          //g_leveInfo += idx==_.size(list)?"":","
         }
         g_leveInfo += `},`;
-        //g_leveInfo += idx1==_.size(table.data)?`}`:`},`
       }
     });
     g_leveInfo += "],";

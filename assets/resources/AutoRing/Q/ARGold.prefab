@@ -27,10 +27,13 @@
       },
       {
         "__id__": 4
+      },
+      {
+        "__id__": 5
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 6
     },
     "_opacity": 255,
     "_color": {
@@ -119,7 +122,13 @@
       "__id__": 1
     },
     "_enabled": true,
+    "enumAutoPrefab": 1,
+    "autoPrefabList": [
+      0
+    ],
+    "autoParentNode": null,
     "qType": 0,
+    "isNeedBoomEffect": false,
     "_id": ""
   },
   {
@@ -137,6 +146,18 @@
       "y": 0
     },
     "_radius": 30,
+    "_id": ""
+  },
+  {
+    "__type__": "0a4e7qW+tlL4ar+jMy7+6eL",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "enumAudio": 7,
+    "enumTrigger": 4,
     "_id": ""
   },
   {

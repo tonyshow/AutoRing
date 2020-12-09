@@ -8,8 +8,11 @@ import g_global from "../GameGlobal";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ARQ extends Interface {
-  @property({ tooltip: "球类型", type: cc.Enum(EnumQType) })
+  @property({ displayName: "球类型", type: cc.Enum(EnumQType) })
   qType = EnumQType.NONE;
+
+  @property({ displayName: "是否需要爆炸特效"  })
+  isNeedBoomEffect :boolean= true;
 
   isPeng: boolean = false;
   isRming: boolean = false; //等待死亡动画播放完成再进行删除
@@ -57,8 +60,10 @@ export default class ARQ extends Interface {
     if(!this.node || !this.node.parent){
       cc.error("出现异常不能再加爆炸特效");
     }
-    let boom:cc.Node = await  ResUtil.getNodeByEnumPrefab( EnumPrefab.ARBoomEffect,this.node.parent )
-    boom.setPosition(  this.node.parent.convertToNodeSpaceAR(currWorldPosition) );
+    if(!!this.isNeedBoomEffect){
+      let boom:cc.Node = await  ResUtil.getNodeByEnumPrefab( EnumPrefab.ARBoomEffect,this.node.parent )
+      boom.setPosition(  this.node.parent.convertToNodeSpaceAR(currWorldPosition) );
+    }
     this.isRming = true;
     let act = cc.sequence(
       cc.scaleTo(0.05, 0),

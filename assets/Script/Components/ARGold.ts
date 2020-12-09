@@ -5,12 +5,11 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ARGold extends ARQ {
   async doDestroy() {
-    super.doDestroy();
-    if (!!this.isRming) {
-      return;
+    if (!this.isRming) {
+      //再票到金币位置
+      let goldWordPostion = this.node.convertToWorldSpaceAR(cc.Vec2.ZERO);
+      g_global.eveLister.emit("ARMoneyChange", 1, goldWordPostion);
     }
-    //再票到金币位置
-    let goldWordPostion = this.node.convertToWorldSpaceAR(cc.Vec2.ZERO);
-    g_global.eveLister.emit("ARMoneyChange", 1, goldWordPostion);
+    super.doDestroy();
   }
 }

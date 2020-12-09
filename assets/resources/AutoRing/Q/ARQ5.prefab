@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ARBoomEffect",
+    "_name": "ARQ5",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -27,26 +27,23 @@
       },
       {
         "__id__": 4
-      },
-      {
-        "__id__": 5
       }
     ],
     "_prefab": {
-      "__id__": 6
+      "__id__": 5
     },
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
+      "r": 0,
+      "g": 0,
       "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 100
+      "width": 50,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -57,8 +54,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        -250,
+        498,
         0,
         0,
         0,
@@ -98,7 +95,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0cf6c8e1-767d-4a28-bffd-335755967aa4"
+      "__uuid__": "b2c301de-770c-4d0a-a180-fbce8d8f39a7"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -115,44 +112,36 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Animation",
+    "__type__": "a3aa9RboIlHmY5omqAsb1sX",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "_defaultClip": {
-      "__uuid__": "c7dac19f-7c11-4533-bf96-5d8f86b1e664"
-    },
-    "_clips": [
-      {
-        "__uuid__": "c7dac19f-7c11-4533-bf96-5d8f86b1e664"
-      }
+    "enumAutoPrefab": 1,
+    "autoPrefabList": [
+      0
     ],
-    "playOnLoad": true,
+    "autoParentNode": null,
+    "qType": 0,
     "_id": ""
   },
   {
-    "__type__": "81a0b77VJ9PlL4vX6Fnoh8P",
+    "__type__": "cc.CircleCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "0a4e7qW+tlL4ar+jMy7+6eL",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
+    "tag": 5,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "enumAudio": 6,
-    "enumTrigger": 4,
+    "_radius": 30,
     "_id": ""
   },
   {
@@ -161,7 +150,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4bd48b88-d7a2-438e-9895-0e7bac1ff728"
+      "__uuid__": "d995fe91-ab69-446f-8bdb-a2297af3b3d9"
     },
     "fileId": "",
     "sync": false
