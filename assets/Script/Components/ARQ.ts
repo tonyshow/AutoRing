@@ -66,7 +66,7 @@ export default class ARQ extends Interface {
     }
     this.isRming = true;
     let act = cc.sequence(
-      cc.scaleTo(0.05, 0),
+      cc.scaleTo(0.1, 0),
       cc.callFunc(() => {
         this.node.destroy();
         g_global.eveLister.emit("rmEnumQType",this.qType);//通知删除球类型

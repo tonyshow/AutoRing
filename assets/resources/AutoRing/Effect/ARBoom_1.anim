@@ -3,7 +3,7 @@
   "_name": "ARBoom_1",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.23333333333333334,
+  "_duration": 0.26666666666666666,
   "sample": 30,
   "speed": 1,
   "wrapMode": 1,
@@ -50,7 +50,13 @@
           {
             "frame": 0.2,
             "value": {
-              "__uuid__": "c7a359ff-cf69-4bdd-ac62-8644977f45b6"
+              "__uuid__": "13b634da-7e34-46ed-860a-9ef66362bd4f"
+            }
+          },
+          {
+            "frame": 0.23333333333333334,
+            "value": {
+              "__uuid__": "ee78b7c6-0bbd-4b91-85c5-6022546b9c56"
             }
           }
         ]

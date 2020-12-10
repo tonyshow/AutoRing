@@ -88,14 +88,12 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 1,
-    "_custom": {
-      "custom": false
-    },
+    "_custom": true,
     "_file": {
       "__uuid__": "e25e72cc-b950-417e-bcb4-b76bd10b0766"
     },
     "_spriteFrame": {
-      "__uuid__": "472df5d3-35e7-4184-9e6c-7f41bee65ee3"
+      "__uuid__": "b2c301de-770c-4d0a-a180-fbce8d8f39a7"
     },
     "_texture": null,
     "_stopped": true,
@@ -184,7 +182,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "0dde1d39-b5cd-43b1-a8f8-ce01084e5348"
     },
     "fileId": "",
     "sync": false

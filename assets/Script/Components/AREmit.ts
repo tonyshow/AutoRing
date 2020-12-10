@@ -58,13 +58,15 @@ export default class AREmit extends Interface {
       return;
     }
     cc.audioEngine.play(this.audio, false, 1);
-    var emitQNode =await ResUtil.getNodeByEnumPrefab(this.emitQPrefab ,this.emitBulletParentNode)
-    emitQNode.setPosition(this.emitBulletParentNode.convertToNodeSpaceAR(this.emitParentNode.convertToWorldSpaceAR(this.emitNode.getPosition())));
-    emitQNode.runAction(this.emitAction());
+    var emitQNode =await ResUtil.getCompByEnumPrefab(this.emitQPrefab ,this.emitBulletParentNode);
+    let startPosition = this.emitBulletParentNode.convertToNodeSpaceAR(this.emitParentNode.convertToWorldSpaceAR(this.emitNode.getPosition()));
+    emitQNode.doEmit(startPosition);
+    //emitQNode.setPosition();
+    //emitQNode.runAction(this.emitAction());
   }
-  emitAction() {
-    return cc.moveBy(1, 0, cc.winSize.height * 1.2);
-  }
+  //emitAction() {
+  //  return cc.moveBy(1, 0, cc.winSize.height * 1.2)
+  //}
   doCleanAllQ(){
     this.emitBulletParentNode.removeAllChildren(true);
   }
