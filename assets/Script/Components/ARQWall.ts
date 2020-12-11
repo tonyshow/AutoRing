@@ -2,6 +2,7 @@
  * 有血墙
  */
 import _ from "underscore";
+import EnumQTag from "../EnumQTag";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ARQWall extends cc.Component {
@@ -12,7 +13,7 @@ export default class ARQWall extends cc.Component {
   async onLoad() {}
   onCollisionEnter(otherNode: any, selfNode: any) {
     //被碰撞体直接攻击
-    if (otherNode.tag === 1000) {
+    if (otherNode.tag === EnumQTag.EMIT_MY) {
       this.reduceHp();
       return;
     }

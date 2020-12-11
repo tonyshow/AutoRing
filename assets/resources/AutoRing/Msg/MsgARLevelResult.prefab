@@ -327,7 +327,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label",
+    "_name": "useTime",
     "_objFlags": 0,
     "_parent": {
       "__id__": 7
@@ -435,7 +435,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label copy",
+    "_name": "getGold",
     "_objFlags": 0,
     "_parent": {
       "__id__": 7
@@ -543,7 +543,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label copy",
+    "_name": "outfriendcnt",
     "_objFlags": 0,
     "_parent": {
       "__id__": 7
@@ -651,7 +651,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label copy",
+    "_name": "getstarcnt",
     "_objFlags": 0,
     "_parent": {
       "__id__": 7
@@ -2293,6 +2293,21 @@
       "a": 255
     },
     "interactable": false,
+    "lbTitle": {
+      "__id__": 25
+    },
+    "lbGetGold": {
+      "__id__": 12
+    },
+    "lbUseTime": {
+      "__id__": 9
+    },
+    "lbOutFriendCnt": {
+      "__id__": 15
+    },
+    "lbStarCnt": {
+      "__id__": 18
+    },
     "_id": ""
   },
   {

@@ -1,5 +1,4 @@
 require("shelljs/global");
-var async = require("async");
 var _ = require("underscore");
 var fs = require("fs");
 var path = require("path");
@@ -34,7 +33,6 @@ app.getGateList = function (table) {
       if (1 == idx) {
         byteNameList = list;
         getGateByLevelIdReturn = ":{";
-        let size = list.length;
         for (let keyName of list) {
           getGateByLevelIdReturn += keyName + "?,";
         }

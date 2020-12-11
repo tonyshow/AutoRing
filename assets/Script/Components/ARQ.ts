@@ -2,6 +2,7 @@ import _ from "underscore";
 import EnumPrefab from "../../Framework/Auto/EnumPrefab";
 import Interface from "../../Framework/Interface/Interface";
 import ResUtil from "../../Framework/Manager/ResManager/ResUtil";
+import EnumQTag from "../EnumQTag";
 import EnumQType from "../EnumQType";
 import g_global from "../GameGlobal";
 
@@ -25,10 +26,10 @@ export default class ARQ extends Interface {
   }
   onCollisionEnter(otherNode: any, selfNode: any) {
     //被碰撞体直接攻击
-    if (otherNode.tag === 1000 && false==this.isRming) {
+    if (otherNode.tag === EnumQTag.EMIT_MY && false==this.isRming) {
       this.isPeng = true;
       this.doDestroy();
-      return;
+      return true;
     }
   }
   /**

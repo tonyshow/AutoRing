@@ -27,6 +27,7 @@ export default class ARGame extends Scene {
     this.iniTitleX = this.titleNode.x;
     console.log("ARGame.start");
     this.eveList.push(["onNextLevel", this.onNextLevel.bind(this)]);
+    this.eveList.push(["collisionARQDeath", this.collisionARQDeath.bind(this)]);
     super.start();
     g_global.openCollision(true);
     this.loadMap();
@@ -41,6 +42,14 @@ export default class ARGame extends Scene {
         this.loadMap();
       });
     });
+  }
+  /**
+   * 碰撞到死亡球
+   */
+  collisionARQDeath(){
+    g_global.msgManager.show(
+      EnumPrefab.MsgARLevelResult
+    );
   }
   onDestroy() {
     super.onDestroy();

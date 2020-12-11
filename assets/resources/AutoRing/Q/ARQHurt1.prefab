@@ -354,22 +354,6 @@
     "_id": ""
   },
   {
-    "__type__": "a3aa9RboIlHmY5omqAsb1sX",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "enumAutoPrefab": 1,
-    "autoPrefabList": [
-      0
-    ],
-    "autoParentNode": null,
-    "qType": 1,
-    "_id": ""
-  },
-  {
     "__type__": "cc.CircleCollider",
     "_name": "",
     "_objFlags": 0,
@@ -384,6 +368,23 @@
       "y": 0
     },
     "_radius": 15,
+    "_id": ""
+  },
+  {
+    "__type__": "db185gt0z9Fn7d/SMauIGAk",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "enumAutoPrefab": 1,
+    "autoPrefabList": [
+      0
+    ],
+    "autoParentNode": null,
+    "qType": 1,
+    "isNeedBoomEffect": true,
     "_id": ""
   },
   {
