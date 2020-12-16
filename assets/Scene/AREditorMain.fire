@@ -171,7 +171,7 @@
       "array": [
         0,
         0,
-        399.49481243637473,
+        455.5293623906148,
         0,
         0,
         0,
@@ -1466,7 +1466,7 @@
         "__id__": 34
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 36
@@ -3266,9 +3266,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 83,
-      "g": 88,
-      "b": 86,
+      "r": 0,
+      "g": 255,
+      "b": 153,
       "a": 255
     },
     "_contentSize": {
@@ -3328,9 +3328,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_contentSize": {
@@ -3387,9 +3387,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "回到游戏",
-    "_N$string": "回到游戏",
-    "_fontSize": 35,
+    "_string": "回到主页",
+    "_N$string": "回到主页",
+    "_fontSize": 28,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -3555,7 +3555,7 @@
     },
     "_enabled": true,
     "jumpType": 1,
-    "sceneName": 3,
+    "sceneName": 6,
     "enumPrefab": 0,
     "_id": "15iWGMdjVAJr5F0qyNcnlx"
   },
@@ -4263,12 +4263,12 @@
       }
     ],
     "_prefab": null,
-    "_opacity": 255,
+    "_opacity": 20,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 196,
-      "b": 126,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -4317,7 +4317,7 @@
     "node": {
       "__id__": 90
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -4387,9 +4387,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -5660,12 +5660,12 @@
       }
     ],
     "_prefab": null,
-    "_opacity": 255,
+    "_opacity": 20,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 196,
-      "b": 126,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -5714,7 +5714,7 @@
     "node": {
       "__id__": 120
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -5784,9 +5784,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
