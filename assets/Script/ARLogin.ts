@@ -25,6 +25,6 @@ export default class ARLogin extends Scene {
   }
   doLoginSuccess(info){
     g_global.player.reset(info);
-    g_global.scene.goScene( EnumScene.ARGame )
+    g_global.scene.goScene( EnumScene.ARMainScene )
   }
 }

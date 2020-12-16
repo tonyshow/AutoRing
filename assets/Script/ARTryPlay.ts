@@ -17,7 +17,7 @@ export default class ARTryPlay extends Scene {
     this.createBalls();
     g_global.openCollision(true);
   }
-  onNextLevel(){
+  onLevelResult(){
     g_global.msgSys.showPrompt("成功过关!!");
   }
   async createBalls(){
@@ -33,7 +33,7 @@ export default class ARTryPlay extends Scene {
     g_global.scene.goScene(EnumScene.AREditorMain)
   }
   async start() {
-    this.eveList.push(["onNextLevel", this.onNextLevel.bind(this)]);
+    this.eveList.push(["onLevelResult", this.onLevelResult.bind(this)]);
     super.start();
   }
 }

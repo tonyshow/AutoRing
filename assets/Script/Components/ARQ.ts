@@ -20,7 +20,6 @@ export default class ARQ extends Interface {
 
   start(){
     g_global.eveLister.emit("doAddEnumQType",this.qType)
-    //cc.error("通知 doAddEnumQType");
     this.eveList.push(["ARQSelfDestroy",this.selfDestroy.bind(this)])//自废
     super.start();
   }

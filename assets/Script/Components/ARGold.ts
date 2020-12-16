@@ -10,6 +10,6 @@ export default class ARGold extends ARQ {
       let goldWordPostion = this.node.convertToWorldSpaceAR(cc.Vec2.ZERO);
       g_global.eveLister.emit("ARMoneyChange", 1, goldWordPostion);
     }
-    super.doDestroy();
+    await super.doDestroy();
   }
 }

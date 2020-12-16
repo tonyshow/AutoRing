@@ -1,5 +1,4 @@
-import EnumPrefab from "../Framework/Auto/EnumPrefab";
-import EnumPrompt from "../Framework/Interface/EnumPrompt";
+import EnumPrompt from "../Framework/Enum/EnumPrompt";
 import MsgBox from "../Framework/Interface/Msg/MsgBox";
 import g_global from "./GameGlobal";
 
@@ -13,10 +12,10 @@ export default class MsgARSaveEditor extends MsgBox {
   @property({ tooltip: "强制保存按钮", type: cc.EditBox })
   editBox: cc.EditBox = null;
 
-  removeKey=null;
+  removeKey = null;
   onSaveClick() {
     let name = this.editBox.string;
-    if(!name){
+    if (!name) {
       return g_global.msgSys.showPrompt("取个响亮的名字", EnumPrompt.WARN);
     }
     this.doRemove();
@@ -26,7 +25,10 @@ export default class MsgARSaveEditor extends MsgBox {
       g_global.msgSys.showPrompt("保存成功");
       this.onClose();
     } else {
-      g_global.msgSys.showPrompt("名字已存在,请修改名字或直接覆盖", EnumPrompt.WARN);
+      g_global.msgSys.showPrompt(
+        "名字已存在,请修改名字或直接覆盖",
+        EnumPrompt.WARN
+      );
       this.saveForcepNode.active = true;
     }
   }
@@ -41,11 +43,11 @@ export default class MsgARSaveEditor extends MsgBox {
     g_global.msgSys.showPrompt("覆盖成功", EnumPrompt.WARN);
   }
 
-  setRemove(removeKey){
-    this.removeKey=removeKey;
+  setRemove(removeKey) {
+    this.removeKey = removeKey;
   }
-  doRemove(){
-    if(!!this.removeKey){
+  doRemove() {
+    if (!!this.removeKey) {
       g_global.editorManager.remove(this.removeKey);
     }
   }

@@ -18,6 +18,7 @@ export default class ARGame extends Scene {
   iniTitleY = 0;
   iniTitleX = 0;
   timeout = null;
+  arMap :ARMain=null;
   async onLoad() {
     await super.onLoad();
   }
@@ -26,30 +27,36 @@ export default class ARGame extends Scene {
     this.iniTitleY = this.titleNode.y;
     this.iniTitleX = this.titleNode.x;
     console.log("ARGame.start");
-    this.eveList.push(["onNextLevel", this.onNextLevel.bind(this)]);
+    this.eveList.push(["onLevelResult", this.onLevelResult.bind(this)]);
     this.eveList.push(["collisionARQDeath", this.collisionARQDeath.bind(this)]);
+    this.eveList.push(["onOneMoreTry", this.onOneMoreTry.bind(this)]);
+    this.eveList.push(["onNextLevel", this.onNextLevel.bind(this)]);
     super.start();
     g_global.openCollision(true);
-    this.loadMap();
+    this.loadMap(++this.currLevel);
   }
-  async onNextLevel() {
-    let MsgARLevelResultNode: cc.Node = await g_global.msgManager.show(
-      EnumPrefab.MsgARLevelResult
-    );
-    let msgARLevelResult = MsgARLevelResultNode.getComponent(MsgARLevelResult);
-    msgARLevelResult.register(() => {
-      this.doSwitchLevelTitle(()=>{
-        this.loadMap();
-      });
+  async onLevelResult() {
+    await g_global.msgManager.show(EnumPrefab.MsgARLevelResult, {
+      code: "success",
     });
+  }
+  /**下一关 */
+  onNextLevel(){
+    this.doClearance();
+    this.doSwitchLevelTitle(() => {
+      this.loadMap(++this.currLevel);
+    });
+  }
+  /**再试一次 */
+  onOneMoreTry() {
+    this.doClearance();
+    this.loadMap(this.currLevel);
   }
   /**
    * 碰撞到死亡球
    */
-  collisionARQDeath(){
-    g_global.msgManager.show(
-      EnumPrefab.MsgARLevelResult
-    );
+  collisionARQDeath() {
+    g_global.msgManager.show(EnumPrefab.MsgARLevelResult,{code:"fail"});
   }
   onDestroy() {
     super.onDestroy();
@@ -91,18 +98,26 @@ export default class ARGame extends Scene {
     );
   }
   //加载关卡地图
-  async loadMap() {
+  async loadMap(currLevel) {
+    this.doClearance();
     //清楚所有球
-    let gate = g_global.leveManager.getGateByLevelId(++this.currLevel);
+    let gate = g_global.leveManager.getGateByLevelId(currLevel);
     this.titleLb.string = `第 ${this.currLevel} 关`;
     if (null == gate) {
       return g_global.msgSys.showPrompt("恭喜通全关!!!");
     }
-    const ctr: ARMain = await ResUtil.getCompByEnumPrefab(
+    this.arMap  = await ResUtil.getCompByEnumPrefab(
       gate.mapPrefabName,
       this.node,
       "ARMain"
     );
-    ctr.createLevel(gate);
+    this.arMap.createLevel(gate);
+  }
+
+  /**清场*/
+  doClearance(){
+    if(!!this.arMap && !!this.arMap.node && this.arMap.node.destroy){
+      this.arMap.node.destroy();
+    }
   }
 }

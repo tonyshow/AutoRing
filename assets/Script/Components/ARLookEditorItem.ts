@@ -1,6 +1,6 @@
 import EnumPrefab from "../../Framework/Auto/EnumPrefab";
 import EnumScene from "../../Framework/Auto/EnumScene";
-import EnumPrompt from "../../Framework/Interface/EnumPrompt";
+import EnumPrompt from "../../Framework/Enum/EnumPrompt";
 import Interface from "../../Framework/Interface/Interface";
 import g_global from "../GameGlobal";
 import MsgARSaveEditor from "../MsgARSaveEditor";

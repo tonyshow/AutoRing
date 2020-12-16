@@ -34,7 +34,7 @@ export default class ARTop extends Interface {
       this.headSp.spriteFrame =sp;
     }
     this.goldWorldPostion = this.goldNode.parent.convertToWorldSpaceAR( this.goldNode.position);
-     g_global.gameUIDataManager.refreshTopHeadGoldWordPosition(this.goldWorldPostion);
+    // g_global.gameUIDataManager.refreshTopHeadGoldWordPosition(this.goldWorldPostion);
 
      this.goldParentNode = cc.director.getScene();
   }

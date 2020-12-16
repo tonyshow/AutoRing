@@ -9,13 +9,11 @@ import g_global from "../GameGlobal";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ARMain extends Interface {
-  interval = null;
-  addCnt = 0; //有入场动画的要等动画执行完成
-  addEdQCnt = 0; //有入场动画的要等动画执行完成
-  isRm = false;
+  addAnimFinshQCnt = 0; //有入场动画的要等动画执行完成
   totalQCnt = 0; //关卡总球数
   canEatQcnt = 0; //可吃球数量
   rmQCnt = 0;
+  isRm = false;
   gate = {
     //背景
     map: {
@@ -25,9 +23,7 @@ export default class ARMain extends Interface {
     list: [], //球数据
   }; //当前编辑的map数据
   init() {
-    this.interval = null;
-    this.addCnt = 0; //有入场动画的要等动画执行完成
-    this.addEdQCnt = 0; //有入场动画的要等动画执行完成
+    this.addAnimFinshQCnt = 0; //有入场动画的要等动画执行完成
     this.isRm = false;
     this.totalQCnt = 0; //关卡总球数
     this.canEatQcnt = 0; //
@@ -42,7 +38,6 @@ export default class ARMain extends Interface {
     this.eveList.push(["ARAtc", this.doEnemyAtc.bind(this)]);
     this.eveList.push(["rmEnumQType", this.doRmEnumQType.bind(this)]);
     this.eveList.push(["doAddEnumQType", this.doAddEnumQType.bind(this)]);
-    //cc.error("添加监听 doAddEnumQType");
     super.start();
   }
   /**敌人发射攻击 */
@@ -69,7 +64,6 @@ export default class ARMain extends Interface {
     if (EnumQType.DEATH != qType) {
       ++this.rmQCnt;
       if (
-        this.addCnt > 0 &&
         !this.isRm &&
         !!this.node &&
         0 != this.canEatQcnt &&
@@ -78,12 +72,11 @@ export default class ARMain extends Interface {
         this.isRm = true;
         g_global.gameUIDataManager.refreshIsEnemyCanEmit(false);
         g_global.eveLister.emit("ARCleanEmit", true);
-
         setTimeout(() => {
           g_global.eveLister.emit("ARQSelfDestroy");
         }, 200);
         setTimeout(() => {
-          g_global.eveLister.emit("onNextLevel");
+          g_global.eveLister.emit("onLevelResult");
           this.node.destroy();
         }, 1000);
       }
@@ -93,14 +86,12 @@ export default class ARMain extends Interface {
     if (EnumQType.DEATH != qType) {
       ++this.canEatQcnt;
     }
-    ++this.addCnt;
   }
-  addAnimFinsh(addEdQCnt: number = 1) {
-    this.addEdQCnt += addEdQCnt;
+  addAnimFinsh(addAnimFinshQCnt: number = 1) {
+    this.addAnimFinshQCnt += addAnimFinshQCnt;
     /**添加完成 */
-    if (this.addEdQCnt >= this.totalQCnt && this.totalQCnt != 0) {
+    if (this.addAnimFinshQCnt >= this.totalQCnt && this.totalQCnt != 0) {
       g_global.gameUIDataManager.refreshIsEnemyCanEmit(true);
-      cc.error("this.canEatQcnt = " + this.canEatQcnt);
     }
   }
   /**重新创建关卡的时候关闭发射 */

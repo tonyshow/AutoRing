@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        454.9610332193812,
+        399.49481243637473,
         0,
         0,
         0,
@@ -776,7 +776,7 @@
     },
     "_enabled": true,
     "jumpType": 1,
-    "sceneName": 3,
+    "sceneName": 6,
     "enumPrefab": 0,
     "_id": "091tKnSF9JB7rEIh5PnUqe"
   },
